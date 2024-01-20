@@ -8,8 +8,8 @@
  * granite picture from https://en.wikipedia.org/wiki/File:Fj%C3%A6regranitt3.JPG
  * wooden background from https://unsplash.com/photos/brown-parquet-board-wG923J9naFQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash
  *
- * // TODO: Documentation!!! Add the mark as I hover.
- * // TODO: add drag mode, clean the code again, combine method used once
+ * // TODO: Documentation!!!
+ * // TODO: add drag mode
  * * error in layout.json is for server error
  *
  */
@@ -59,14 +59,14 @@ import Stats from 'three/addons/libs/stats.module.js';
     board.position.set(0,0,-0.9); // piece height: 1.8
     scene.add(board);
 
-    await layoutByName("default");
+    await layoutByName("debug");
 
     camera.position.z = 50*Math.cos(Math.PI/9);
     camera.position.y = -50*Math.sin(Math.PI/9);
     camera.lookAt(0,0,0);
     adaptCamera();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(1.5); // my devicePixelRatio is 1.5. 3 will be ultra HD
+    renderer.setPixelRatio(3); // my devicePixelRatio is 1.5. 3 will be ultra HD
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap; // create more natural shadow
     window.addEventListener('resize', onWindowResize);
@@ -295,8 +295,6 @@ import Stats from 'three/addons/libs/stats.module.js';
   // coords: board(c,r) world(x,y)
   //    x = 5 * c - 20, y: 5 * r - 22.5
   //    c = floor((x+22.5)/5), r = floor((y+25)/5)
-  // TODO: make setHighlight a method for pieces
-  //    for all material m in that piece: m.emissive.setHex(color);
 
   function onPointerMove(evt) {
     pointer.x = (evt.clientX / window.innerWidth) * 2 - 1;
@@ -396,12 +394,12 @@ import Stats from 'three/addons/libs/stats.module.js';
     renderer.render(scene, camera);
   }
 
-  // TODO: This should be a method for piece class.
+  // TODO: This should be a getter method for piece class.
   function dumbGetTeam(piece) {
     return piece ? parseInt(piece.name.charAt(6)) : null;
   }
 
-  // TODO: This should be a method for piece class
+  // TODO: This should be a method for board class
   function rule(piece, board) {
     return true;
   }

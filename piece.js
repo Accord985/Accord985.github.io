@@ -5,6 +5,8 @@
  * // TODO: also make a 'class' for the board (to store the positions & calculate legal moves)
  * // TODO: add AnimationClip, KeyframeTrack to the pieces (move)
  * // TODO: use clone() to improve efficiency. store the already produced piece ({1K:Mesh, 1G: Mesh, 1E: undefined, ...})
+ * // TODO: make setHighlight a method for pieces
+ * //    for all material m in that piece: m.emissive.setHex(color);
  */
 
 'use strict';
@@ -33,9 +35,10 @@ export const PieceFactory = (function() {
 
   /**
    * font options. Should only be integers 1 or 2
-   *  1=lishu, 2=xingkai, 3=yankai, 4=wei
+   *  1=western, 2=lishu, 3=xingkai, 4=yankai, 5=wei
+   * * when using lishu, there is a bug that a hole is missing in 馬. This is a problem in TextGeometry.
    */
-  const FONT_TYPE = 4;
+  const FONT_TYPE = 1;
 
   /**
    * texture options. Should only be integers
@@ -87,10 +90,10 @@ export const PieceFactory = (function() {
    * @returns THREE.Material - a new instance of the material
    */
   function generateMaterial(repeatX, repeatY, offsetX, offsetY) {
-    let fileNames = ['granite','whiteoak','walnut','uv_grid_opengl'];
-    let fileName = fileNames[BASE_TYPE] || fileNames[fileNames.length-1];
+    let fileNames = ['whiteoak','walnut','uv_grid_opengl'];
+    let fileName = (type === 'S') ? 'granite' : fileNames[BASE_TYPE-1] || fileNames[fileNames.length-1];
     // const map = new THREE.TextureLoader().load('public/uv_grid_opengl.jpg'); // for debugging
-    const map = new THREE.TextureLoader().load('public/'+fileName+'.jpg'); // TODO: use regex
+    const map = new THREE.TextureLoader().load(`public/${fileName}.jpg`);
     map.wrapS = map.wrapT = THREE.RepeatWrapping; // texture infinitely repeats in both directions
     map.anisotropy = 32; // responsible for fidelity
     map.colorSpace = THREE.SRGBColorSpace; // needed for colored models
@@ -178,11 +181,12 @@ export const PieceFactory = (function() {
     const fontLoader = new FontLoader();
     // restricted char set: (within parenthesis are json file names)
     // 方正行楷(fz-xingkai)&方正刘炳森隶书(fz-lbs-lishu)：帥將王仕士侍相象像馬車炮兵卒勇岩
-    const FONTS = ['fz-lbs-lishu', 'fz-xingkai', 'ar-yankai', 'fz-wei'];
+    // western: 仅有 帥仕相馬車炮兵
+    const FONTS = ['western', 'fz-lbs-lishu', 'fz-xingkai', 'ar-yankai', 'fz-wei'];
     let fontName = FONTS[FONT_TYPE - 1];
     try {
-      let font = await fontLoader.loadAsync('/public/fonts/'+fontName+'.json'); // TODO: use regex
-      let char = CHARACTERS[type].charAt(team-1) || CHARACTERS[type].charAt(0); // 'a' || 's' => 'a'; 's'.charAt(2) => ''; '' || 's' => 's'
+      let font = await fontLoader.loadAsync(`/public/fonts/${fontName}.json`);
+      let char = (FONT_TYPE===1) ? CHARACTERS[type].charAt(0) : CHARACTERS[type].charAt(team-1) || CHARACTERS[type].charAt(0); // 'a' || 's' => 'a'; 's'.charAt(2) => ''; '' || 's' => 's'
       const settings = {
         font:font,
         size: 16,
@@ -190,7 +194,7 @@ export const PieceFactory = (function() {
         bevelEnabled: true,
         bevelThickness: (ENGRAVE === 0) ? 0 : 0.4,
         bevelSize: 0.4,
-        bevelOffset: (FONT_TYPE === 3) ? -0.4 : -0.2, // font 3 is too thick. No need to bold it more
+        bevelOffset: (FONT_TYPE === 4 || FONT_TYPE === 1) ? -0.4 : -0.2, // font 3 is too thick. No need to bold it more
         bevelSegments: 1
       };
       const geo = new TextGeometry(char, settings);

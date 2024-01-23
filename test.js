@@ -1,9 +1,14 @@
+/**
+ * BW 2024.1.20
+ * This file is solely for debugging. It is not related with the application.
+ */
+
 'use strict';
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 import {FontLoader} from 'three/addons/loaders/FontLoader.js';
 import {TextGeometry} from 'three/addons/geometries/TextGeometry.js';
-// import {ADDITION, SUBTRACTION, Brush, Evaluator} from 'three-bvh-csg';
+import {Piece} from './real-piece.js';
 // PieceFactory.setProperty(1,'帥') ;
 
 (function() {
@@ -21,26 +26,27 @@ import {TextGeometry} from 'three/addons/geometries/TextGeometry.js';
   }
 
   async function init() {
-    scene.background = new THREE.Color(0x777777);
-    const g = new THREE.Group();
+    // scene.background = new THREE.Color(0x777777);
+    // const g = new THREE.Group();
 
-    setLighting();
+    // setLighting();
 
-    let t = await createText();
-    t.name = 'text';
-    g.add(t);
+    // let t = await createText();
+    // t.name = 'text';
+    // g.add(t);
 
-    let pg = new THREE.PlaneGeometry(30,30);
-    let m = new THREE.MeshBasicMaterial({color: 0xeeeeee});
-    g.add(new THREE.Mesh(pg, m));
-    scene.add(g);
+    // let pg = new THREE.PlaneGeometry(30,30);
+    // let m = new THREE.MeshBasicMaterial({color: 0xeeeeee});
+    // g.add(new THREE.Mesh(pg, m));
+    // scene.add(g);
 
-    camera.position.z = 15;
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    // camera.position.z = 15;
+    // renderer.setSize(window.innerWidth, window.innerHeight);
 
-    document.getElementById('loading').classList.add('hidden');
-    document.body.appendChild(renderer.domElement);
-    animate();
+    // document.getElementById('loading').classList.add('hidden');
+    // document.body.appendChild(renderer.domElement);
+    // animate();
+    let p = new Piece();
   }
 
   async function createText() {

@@ -93,7 +93,7 @@ export class Piece {
   }
 
   moveOut() {
-    this.#piece.position = 40;
+    this.#piece.position.x = 40;
   }
 
   moveTo(x, y) {

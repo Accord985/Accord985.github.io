@@ -130,7 +130,6 @@ export class Piece {
     let carve = this.#createCarve();
     let text = await this.#createText();
     let group = this.#combineAsGroup(side,surfaces,carve,text);
-    group.name = `piece-${this.#team}${this.#type}`; // TODO: remove this one day
     this.#piece = group;
     return this.#piece;
   }

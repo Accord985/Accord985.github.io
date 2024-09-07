@@ -4,7 +4,7 @@
  */
 
 'use strict';
-import {AbstractGame} from '../util/compiled/AbstractGame.js';
+import {AbstractGame} from '../AbstractGame.js';
 
 (function() {
   window.addEventListener('load', init);
@@ -38,9 +38,6 @@ import {AbstractGame} from '../util/compiled/AbstractGame.js';
     // check if game ends
     if (game.isGameOver()) {
       id('gameState').textContent = "The winner is " + game.getWinner();
-      id('move').removeEventListener('click', () => {
-        playMove(game);
-      });
       id('move').disabled = true;
     }
   }

@@ -4,7 +4,7 @@
  */
 
 'use strict';
-import {AbstractGame} from '../AbstractGame.js';
+import {AbstractGame} from 'AbstractGame.js';
 
 (function() {
   window.addEventListener('load', init);
@@ -34,11 +34,23 @@ import {AbstractGame} from '../AbstractGame.js';
     } else {
       id('moveState').textContent = `Error: Status ${status} is not recognized.`;
     }
-    id('move').value = '';
+    id('moveInput').value = '';
     // check if game ends
     if (game.isGameOver()) {
-      id('gameState').textContent = "The winner is " + game.getWinner();
+      id('gameState').textContent = `The winner is ${game.getWinner()}! Refresh the page to play again.`;
       id('move').disabled = true;
+      id('recall').disabled = true;
+    }
+  }
+
+  function recallMove(game) {
+    let status = game.recallMove();
+    if (status) {
+      id('board').textContent = game.toString();
+      id('gameState').textContent = "Current Player: " + game.getCurrPlayer();
+      id('moveState').textContent = 'Move recalled!';
+    } else {
+      id('moveState').textContent = 'There is no reverse available.';
     }
   }
 
@@ -52,6 +64,9 @@ import {AbstractGame} from '../AbstractGame.js';
     id('gameState').textContent = "Current Player: " + game.getCurrPlayer();
     id('move').addEventListener('click', () => {
       playMove(game);
+    });
+    id('recall').addEventListener('click', () => {
+      recallMove(game);
     });
 
 

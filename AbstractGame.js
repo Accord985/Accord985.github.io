@@ -35,7 +35,7 @@ class AbstractGame {
     static initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let resp = yield fetch("./layouts.json");
+                let resp = yield fetch("/util/layouts.json");
                 resp = yield statusCheck(resp);
                 let result = yield resp.json();
                 return new AbstractGame(result.official);
@@ -105,10 +105,11 @@ class AbstractGame {
                 // TODO: check if there is a check
                 let check = false;
                 let capture = this._lastCaptured !== 0;
+                this._updateWinner();
                 return (check) ? 2 : (capture ? 1 : 0);
             }
             else {
-                console.log("Move not accepted.");
+                // console.log("Move not accepted.");
                 return -1;
             }
         }
@@ -144,16 +145,18 @@ class AbstractGame {
         return result;
     }
     recallMove() {
-        if (this._lastMove !== "") {
+        if (this._lastMove !== "" && !this.isGameOver()) {
             let move = this.interpretMove(this._lastMove);
             this._layout[move.sr][move.sc] = this._layout[move.er][move.ec];
             this._layout[move.er][move.ec] = this._lastCaptured;
             this._lastCaptured = 0;
             this._lastMove = "";
             this._currentPlayer = (this._currentPlayer === 1) ? 2 : (this._currentPlayer - 1);
+            return true;
         }
         else {
-            console.log("There is no reverse available."); // cannot reverse more than once/ at the start of the game
+            console.log("There is no reverse available."); // cannot reverse more than once/ at the start of the game/after the game ended
+            return false;
         }
     }
     // move has to be 2 valid positions. 01-10,A-I. Any combination

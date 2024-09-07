@@ -4,17 +4,6 @@
   <meta charset="utf-8">
     <title>Chinese Chess!!!</title>
     <link rel="stylesheet" href="style.css">
-    <!-- importmap defines alias for import statements -->
-    <!-- you can specify the version by adding @v0.158.0 (0.158.0 is the version number)
-    after the module name (three in this case) -->
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://unpkg.com/three@v0.158.0/build/three.module.js",
-          "three/addons/": "https://unpkg.com/three@v0.158.0/examples/jsm/"
-        }
-      }
-    </script>
     <!-- <script type="module" src="main.js"></script> -->
     <script type="module" src="test.js"></script>
   </head>
@@ -22,16 +11,40 @@
     <section id="loading" class="hidden">Loading...</section>
     <!-- Dumb cchess section -->
     <h1>Chinese Chess (Dumb)</h1>
-    <p>This is the instruction for how to play :></p>
+    <p>
+      This is a functional game of chinese chess (and very DUMB graphic).
+      Here's some explanation for the notations:
+      <ul>
+        <li>
+          The positions on the board is represented by a row number (1-10)
+          followed by a rank letter (A-I).
+        </li>
+        <li>
+          The pieces are denoted by players team connected with the starting letter of the
+          relevant type (Rook, kNight, Cannon, Elephant, Guard, King, Pawn).
+        </li>
+        <li>
+          A move is represented by writing the start position followed by the end position.
+          For example, "03B03E" moves player 1's cannon from 03B to the center on that row(03E).
+          [ps: Lowercase and uppercase letters can be used interchangeably in move notation.]
+        </li>
+        <li>
+          To make a move, put the notation of your desired move in the input box and press the button.
+        </li>
+      </ul>
+      Have fun!
+    </p>
     <!-- for displaying the game -->
     <pre id="board"></pre>
     <!-- for displaying the info (curr player & status of previous move) -->
     <p id="gameState"></p>
     <p id="moveState"></p>
-    <label>Next Move:
+    <label>
+      Next Move:
       <input id="moveInput" type="text" minlength="6" maxlength="6">
     </label>
     <button id="move">Make the Move</button>
+    <button id="recall">Recall last move</button>
     </section>
   </body>
 </html>

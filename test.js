@@ -4,7 +4,7 @@
  */
 
 'use strict';
-import {AbstractGame} from 'AbstractGame.js';
+import {AbstractGame} from './AbstractGame.js';
 
 (function() {
   window.addEventListener('load', init);

@@ -35,7 +35,7 @@ class AbstractGame {
     static initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let resp = yield fetch("/util/layouts.json");
+                let resp = yield fetch("/layouts.json");
                 resp = yield statusCheck(resp);
                 let result = yield resp.json();
                 return new AbstractGame(result.official);
